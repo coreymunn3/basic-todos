@@ -7,10 +7,10 @@ const Todo = require("../models/todo");
 router.get("/", async (req, res) => {
   try {
     const todos = await Todo.findAll();
-    res.status(200).json(todos);
+    return res.status(200).json(todos);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Unable to GET todos", error });
+    return res.status(500).json({ message: "Unable to GET todos", error });
   }
 });
 
@@ -19,10 +19,12 @@ router.get("/:id", async (req, res) => {
   const todoId = req.params.id;
   try {
     const todo = await Todo.findByPk(todoId);
-    res.status(200).json(todo);
+    return res.status(200).json(todo);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: `unable to get todo ${todoId}`, error });
+    return res
+      .status(500)
+      .json({ message: `unable to get todo ${todoId}`, error });
   }
 });
 
@@ -30,7 +32,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { title, completed } = req.body;
   if (!title || completed === undefined) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "bad request, missing title or completed",
     });
@@ -45,7 +47,9 @@ router.post("/", async (req, res) => {
       .json({ status: "success", message: "created todo successfully" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ status: "error", message: "unable to create todo" });
+    return res
+      .status(500)
+      .json({ status: "error", message: "unable to create todo" });
   }
 });
 
@@ -55,7 +59,7 @@ router.put("/:id", async (req, res) => {
   console.log(req.body);
   const todoId = req.params.id;
   if (!title && completed === undefined) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "bad request, missing title or completed",
     });
@@ -71,7 +75,7 @@ router.put("/:id", async (req, res) => {
       await todo.update({ completed });
     }
     await todo.save();
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       message: `updated todo ${todoId}`,
     });
@@ -89,13 +93,13 @@ router.delete("/:id", async (req, res) => {
   try {
     const todo = await Todo.findByPk(todoId);
     await todo.destroy();
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       message: `successfully deleted todo ${todoId}`,
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({
+    return res.status(404).json({
       status: "error",
       message: `todo ${todoId} not found`,
     });
