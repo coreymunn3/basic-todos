@@ -1,9 +1,11 @@
 const express = require("express");
+var cors = require("cors");
 const db = require("./db");
 const todoRouter = require("./routes/todos");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const PORT = process.env.PORT || 5000;
 
 app.get("/test", (req, res) => {
