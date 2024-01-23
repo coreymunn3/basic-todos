@@ -7,7 +7,10 @@ const sequelize = new Sequelize(
   process.env.POSTGRES_USER,
   process.env.POSTGRES_PASSWORD,
   {
+    // use when running api in container
     host: "host.docker.internal",
+    // use when running api on local machine
+    // host: "localhost",
     port: 25432,
     dialect: "postgres",
   }
