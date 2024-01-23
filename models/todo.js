@@ -10,6 +10,7 @@ const Todo = db.define("todo", {
   },
   title: Sequelize.STRING,
   completed: Sequelize.BOOLEAN,
+  order: Sequelize.INTEGER,
 });
 
 module.exports = Todo;
