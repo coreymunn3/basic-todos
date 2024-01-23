@@ -135,7 +135,6 @@ router.put("/:id/:direction", async (req, res) => {
       message: `Todo with order value ${newOrderPosition} not found`,
     });
   }
-  console.log("collateral", collateralTodo);
 
   // Now, each todo basically needs to swap places with each other
   try {
