@@ -20,7 +20,7 @@ app.use(function (req, res) {
   res.status(404);
 });
 
-db.sync()
+db.sync({ alter: true })
   .then((result) => {
     console.log("Database connected");
     app.listen(PORT, () => {
