@@ -10,8 +10,8 @@ const sequelize = new Sequelize(
     host: "todos-db",
     port: 5432,
     // docker run commands for this:
-    // docker run -d --name todos-db --network todos-net -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=todos postgres:16-alpine
-    // docker run -d --name todos-backend --network todos-net todos-api
+    // docker run -d --name todos-db --network todos-net -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=todos -v todos_pgdata:/var/lib/postgresql/data postgres:16-alpine
+    // docker run -d --name todos-backend -p 5000:5000 -v /Users/michaelmunn/Training/docker-practical-guide/basic-todos-api:/app -v /app/node_modules --network todos-net todos-api
 
     // use when running api in container
     // host: "host.docker.internal",
