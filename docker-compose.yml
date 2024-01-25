@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  # run -d --name todos-db --network todos-net -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=todos -v todos_pgdata:/var/lib/postgresql/data postgres:16-alpine
+  todos-db:
+    image: postgres:16-alpine
+    volumes:
+      - todos_pgdata:/var/lib/postgresql/data
+    env_file:
+      - ./.db.env
+      
+  # run -d --name todos-backend -p 5000:5000 -v /Users/michaelmunn/Training/docker-practical-guide/basic-todos-api:/app -v /app/node_modules --network todos-net todos-api
+  backend:
+    build: ./backend
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - todos-db
+
+  # docker run -d --name todos-frontend -p 4000:4000 -v /Users/michaelmunn/Training/docker-practical-guide/basic-todos-frontend/src:/app/src todos-frontend
+  frontend:
+    build: ./frontend
+    ports: 
+      - '4000:4000'
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+volumes:
+  todos_pgdata:
